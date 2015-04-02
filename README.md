@@ -1,5 +1,7 @@
 ## go-jwt
 
+[![Build Status](https://travis-ci.org/danielchatfield/go-jwt.svg)](https://travis-ci.org/danielchatfield/go-jwt)
+
 This is an implementation of JSON Web tokens written in go.
 
 # Limitations
