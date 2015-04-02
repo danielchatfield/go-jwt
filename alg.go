@@ -10,7 +10,7 @@ import (
 // SigningAlgorithm represents a signing algorithm
 type SigningAlgorithm interface {
 	Name() string
-	Sign(payload string, key interface{}) ([]byte, error)
+	Sign(payload string, key interface{}) (string, error)
 	Verify(payload string, signature string, key interface{}) error
 }
 

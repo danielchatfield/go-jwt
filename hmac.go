@@ -23,9 +23,7 @@ func (alg *SigningAlgorithmHMAC) Name() string {
 	return alg.name
 }
 
-// Sign takes a string payload and either a byte array key or a string key and
-// returns the signature as a string or an error
-func (alg *SigningAlgorithmHMAC) Sign(payload string, key interface{}) ([]byte, error) {
+func (alg *SigningAlgorithmHMAC) sign(payload string, key interface{}) ([]byte, error) {
 	var byteArray []byte
 
 	switch k := key.(type) {
@@ -53,6 +51,21 @@ func (alg *SigningAlgorithmHMAC) Sign(payload string, key interface{}) ([]byte, 
 	return hasher.Sum(nil), nil
 }
 
+// Sign takes a string payload and either a byte array key or a string key and
+// returns the signature as a string or an error
+func (alg *SigningAlgorithmHMAC) Sign(payload string, key interface{}) (string, error) {
+	var (
+		sigBytes []byte
+		err      error
+	)
+
+	if sigBytes, err = alg.sign(payload, key); err == nil {
+		return encode(sigBytes), nil
+	}
+
+	return "", err
+}
+
 // Verify calculates the signature and checks that it matches.
 func (alg *SigningAlgorithmHMAC) Verify(payload string, signature string, key interface{}) error {
 	var (
@@ -61,7 +74,7 @@ func (alg *SigningAlgorithmHMAC) Verify(payload string, signature string, key in
 		err      error
 	)
 
-	if checkSig, err = alg.Sign(payload, key); err != nil {
+	if checkSig, err = alg.sign(payload, key); err != nil {
 		return err
 	}
 

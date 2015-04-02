@@ -21,6 +21,10 @@ var (
 	invalidTest = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9." +
 		"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ." +
 		"dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXo"
+
+	stringKeyTest = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+		"eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0." +
+		"OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ"
 )
 
 var hmacTestKey = []byte{
@@ -46,10 +50,8 @@ func testSign(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
 		t.Errorf("[%v] Error while signing token: %v", alg.Name(), err)
 	}
 
-	sigStr := encode(sig)
-
-	if sigStr != segments[2] {
-		t.Errorf("[%v] Incorrect signature.\nwas:\n%v\nexpecting:\n%v", alg.Name(), sigStr, segments[2])
+	if sig != segments[2] {
+		t.Errorf("[%v] Incorrect signature.\nwas:\n%v\nexpecting:\n%v", alg.Name(), sig, segments[2])
 	}
 }
 
@@ -89,4 +91,35 @@ func TestHS512Sign(t *testing.T) {
 
 func TestHS512Verify(t *testing.T) {
 	testVerify(t, hs512Test, SigningAlgorithmHS512)
+}
+
+func TestInvalidSignature(t *testing.T) {
+	segments := strings.Split(invalidTest, ".")
+
+	err := SigningAlgorithmHS256.Verify(
+		strings.Join(segments[0:2], "."),
+		segments[2],
+		hmacTestKey,
+	)
+
+	if err == nil {
+		t.Errorf("[HS256] Invalid signature passed verification")
+	}
+}
+
+func TestStringKey(t *testing.T) {
+	segments := strings.Split(stringKeyTest, ".")
+
+	sig, err := SigningAlgorithmHS256.Sign(
+		strings.Join(segments[0:2], "."),
+		"secret",
+	)
+
+	if err != nil {
+		t.Errorf("[%v] Error while signing token: %v", "HS256", err)
+	}
+
+	if sig != segments[2] {
+		t.Errorf("[%v] Incorrect signature.\nwas:\n%v\nexpecting:\n%v", "HS256", sig, segments[2])
+	}
 }
