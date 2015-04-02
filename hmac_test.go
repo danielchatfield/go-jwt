@@ -18,11 +18,11 @@ var (
 		"eyJleHAiOjEuMzAwODE5MzhlKzA5LCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiaXNzIjoiam9lIn0." +
 		"CN7YijRX6Aw1n2jyI2Id1w90ja-DEMYiWixhYCyHnrZ1VfJRaFQz1bEbjjA5Fn4CLYaUG432dEYmSbS4Saokmw"
 
-	invalidTest = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9." +
+	hmacInvalidTest = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9." +
 		"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ." +
 		"dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXo"
 
-	stringKeyTest = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+	hmacStringKeyTest = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
 		"eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0." +
 		"OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ"
 )
@@ -38,7 +38,7 @@ var hmacTestKey = []byte{
 	0xc0, 0xcd, 0x9a, 0xf5, 0x67, 0xd0, 0x80, 0xa3,
 }
 
-func testSign(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
+func testHMACSign(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
 	segments := strings.Split(token, ".")
 
 	sig, err := alg.Sign(
@@ -55,7 +55,7 @@ func testSign(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
 	}
 }
 
-func testVerify(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
+func testHMACVerify(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
 	segments := strings.Split(token, ".")
 
 	err := alg.Verify(
@@ -70,31 +70,31 @@ func testVerify(t *testing.T, token string, alg *SigningAlgorithmHMAC) {
 }
 
 func TestHS256Sign(t *testing.T) {
-	testSign(t, hs256Test, SigningAlgorithmHS256)
+	testHMACSign(t, hs256Test, SigningAlgorithmHS256)
 }
 
 func TestHS256Verify(t *testing.T) {
-	testVerify(t, hs256Test, SigningAlgorithmHS256)
+	testHMACVerify(t, hs256Test, SigningAlgorithmHS256)
 }
 
 func TestHS384Sign(t *testing.T) {
-	testSign(t, hs384Test, SigningAlgorithmHS384)
+	testHMACSign(t, hs384Test, SigningAlgorithmHS384)
 }
 
 func TestHS384Verify(t *testing.T) {
-	testVerify(t, hs384Test, SigningAlgorithmHS384)
+	testHMACVerify(t, hs384Test, SigningAlgorithmHS384)
 }
 
 func TestHS512Sign(t *testing.T) {
-	testSign(t, hs512Test, SigningAlgorithmHS512)
+	testHMACSign(t, hs512Test, SigningAlgorithmHS512)
 }
 
 func TestHS512Verify(t *testing.T) {
-	testVerify(t, hs512Test, SigningAlgorithmHS512)
+	testHMACVerify(t, hs512Test, SigningAlgorithmHS512)
 }
 
 func TestInvalidSignature(t *testing.T) {
-	segments := strings.Split(invalidTest, ".")
+	segments := strings.Split(hmacInvalidTest, ".")
 
 	err := SigningAlgorithmHS256.Verify(
 		strings.Join(segments[0:2], "."),
@@ -108,7 +108,7 @@ func TestInvalidSignature(t *testing.T) {
 }
 
 func TestStringKey(t *testing.T) {
-	segments := strings.Split(stringKeyTest, ".")
+	segments := strings.Split(hmacStringKeyTest, ".")
 
 	sig, err := SigningAlgorithmHS256.Sign(
 		strings.Join(segments[0:2], "."),
