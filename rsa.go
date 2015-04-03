@@ -17,9 +17,10 @@ type SigningAlgorithmRSA struct {
 
 // Instances of support hashing algs
 var (
-	SigningAlgorithmRS256 = &SigningAlgorithmRSA{"RS256", crypto.SHA256}
-	SigningAlgorithmRS384 = &SigningAlgorithmRSA{"RS384", crypto.SHA384}
-	SigningAlgorithmRS512 = &SigningAlgorithmRSA{"RS512", crypto.SHA512}
+	RSA   = &SigningAlgorithmRSA{"RS256", crypto.SHA256}
+	RS256 = &SigningAlgorithmRSA{"RS256", crypto.SHA256}
+	RS384 = &SigningAlgorithmRSA{"RS256", crypto.SHA384}
+	RS512 = &SigningAlgorithmRSA{"RS512", crypto.SHA512}
 )
 
 // Name returns the name of the algorithm as specified in JSON Web Algorithms

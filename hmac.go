@@ -13,9 +13,9 @@ type SigningAlgorithmHMAC struct {
 
 // Instances of supported hashing algorithms
 var (
-	SigningAlgorithmHS256 = &SigningAlgorithmHMAC{"HS256", crypto.SHA256}
-	SigningAlgorithmHS384 = &SigningAlgorithmHMAC{"HS384", crypto.SHA384}
-	SigningAlgorithmHS512 = &SigningAlgorithmHMAC{"HS512", crypto.SHA512}
+	HS256 = &SigningAlgorithmHMAC{"HS256", crypto.SHA256}
+	HS384 = &SigningAlgorithmHMAC{"HS384", crypto.SHA384}
+	HS512 = &SigningAlgorithmHMAC{"HS512", crypto.SHA512}
 )
 
 // Name returns the name of the algorithm as specified in JSON Web Algorithms

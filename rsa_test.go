@@ -106,25 +106,25 @@ func testRSAVerify(t *testing.T, token string, alg *SigningAlgorithmRSA) {
 }
 
 func TestRS256Sign(t *testing.T) {
-	testRSASign(t, rs256Test, SigningAlgorithmRS256)
+	testRSASign(t, rs256Test, RS256)
 }
 
 func TestRS256Verify(t *testing.T) {
-	testRSAVerify(t, rs256Test, SigningAlgorithmRS256)
+	testRSAVerify(t, rs256Test, RS256)
 }
 
 func TestRS384Sign(t *testing.T) {
-	testRSASign(t, rs384Test, SigningAlgorithmRS384)
+	testRSASign(t, rs384Test, RS384)
 }
 
-func TestRS384Verify(t *testing.T) {
-	testRSAVerify(t, rs384Test, SigningAlgorithmRS384)
+func TestRSs84Verify(t *testing.T) {
+	testRSAVerify(t, rs384Test, RS384)
 }
 
 func TestRS512Sign(t *testing.T) {
-	testRSASign(t, rs512Test, SigningAlgorithmRS512)
+	testRSASign(t, rs512Test, RS512)
 }
 
 func TestRS512Verify(t *testing.T) {
-	testRSAVerify(t, rs512Test, SigningAlgorithmRS512)
+	testRSAVerify(t, rs512Test, RS512)
 }
