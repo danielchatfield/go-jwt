@@ -92,3 +92,11 @@ func TestTokenExpired(t *testing.T) {
 
 	expectError(t, tok, ExpiredError)
 }
+
+func TestTokenNotBefore(t *testing.T) {
+	tok := NewToken(HMAC)
+
+	tok.SetClaim("nbf", time.Now().Add(time.Hour).Unix())
+
+	expectError(t, tok, NotYetValidError)
+}
