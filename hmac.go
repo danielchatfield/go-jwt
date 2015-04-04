@@ -13,6 +13,7 @@ type SigningAlgorithmHMAC struct {
 
 // Instances of supported hashing algorithms
 var (
+	HMAC  = &SigningAlgorithmHMAC{"HS256", crypto.SHA256}
 	HS256 = &SigningAlgorithmHMAC{"HS256", crypto.SHA256}
 	HS384 = &SigningAlgorithmHMAC{"HS384", crypto.SHA384}
 	HS512 = &SigningAlgorithmHMAC{"HS512", crypto.SHA512}
